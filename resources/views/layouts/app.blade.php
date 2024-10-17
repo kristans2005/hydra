@@ -32,5 +32,10 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <!-- Chatbox Component: Display only when the user is logged in -->
+        @auth
+            <x-chat-box />
+        @endauth
     </body>
 </html>
