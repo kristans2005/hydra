@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Casino Royale - Welcome</title>
+    <title>Casino Royale</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-900 text-white overflow-hidden ">
 
   
-    <nav class="bg-gray-800 py-4 shadow-md">
+    <nav class="bg-gray-900 py-4 shadow-md">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="flex items-center">
                 <a href="#" class="text-2xl font-bold text-yellow-500">Casino Royale</a>
