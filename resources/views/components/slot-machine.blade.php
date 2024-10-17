@@ -1,106 +1,231 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>Slot Machine</title>
-</head>
-<body class="bg-gray-900 flex items-center justify-center h-screen">
-    <div class="flex flex-col items-center">
-        <div class="flex space-x-4 mb-5">
-            <div class="slot w-24 h-36 border border-black rounded-lg bg-white shadow-inner overflow-hidden">
-                <div class="symbols" id="slot1Symbols"></div>
-            </div>
-            <div class="slot w-24 h-36 border border-black rounded-lg bg-white shadow-inner overflow-hidden">
-                <div class="symbols" id="slot2Symbols"></div>
-            </div>
-            <div class="slot w-24 h-36 border border-black rounded-lg bg-white shadow-inner overflow-hidden">
-                <div class="symbols" id="slot3Symbols"></div>
-            </div>
-        </div>
+    <title>Document</title>
+    <style>
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
-        <div class="flex space-x-2">
-            <button onclick="spin()" class="px-4 py-2 bg-blue-500 text-white rounded">Spin</button>
-            <button onclick="reset()" class="px-4 py-2 bg-red-500 text-white rounded">Reset</button>
-        </div>
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+
+  background: #212121;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.doors {
+  display: flex;
+}
+
+.door {
+  background: #fafafa;
+  box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.4) inset;
+
+  width: 100px;
+  height: 150px;
+  overflow: hidden;
+
+  border-radius: 1ex;
+  margin: 1ch;
+}
+
+.boxes {
+  /* transform: translateY(0); */
+  transition: transform 1s ease-in-out;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 3rem;
+}
+
+.buttons {
+  margin: 1rem 0 2rem 0;
+}
+
+button {
+  cursor: pointer;
+
+  font-size: 1.2rem;
+  text-transform: uppercase;
+
+  margin: 0 0.2rem 0 0.2rem;
+}
+
+.info {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+    </style>
+</head>
+<body>
+    <div id="app">
+  <div class="doors">
+    <div class="door">
+      <div class="boxes">
+        <!-- <div class="box">?</div> -->
+      </div>
     </div>
 
-    <script>const slotSymbols = [
-        ['😀', '😁', '😂', '😃', '😄', '😅', '😆', '😇', '😈', '😉', '😊', '🙂'],
-        ['🍎', '🍏', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍈', '🍒', '🍑'],
-        ['⭐️', '🌟', '✨', '💫', '⚡️', '☄️', '🌠', '🌌', '🌙', '🌕', '🌖', '🌗']
-    ];
-    
-    function createSymbolElement(symbol) {
-        const div = document.createElement('div');
-        div.classList.add('symbol');
-        div.textContent = symbol;
-        return div;
+    <div class="door">
+      <div class="boxes">
+        <!-- <div class="box">?</div> -->
+      </div>
+    </div>
+
+    <div class="door">
+      <div class="boxes">
+        <!-- <div class="box">?</div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button id="spinner">Spin</button>
+    <button id="reseter">Reset</button>
+  </div>
+
+  <p class="info"></p>
+</div>
+
+<script>
+    (function () {
+  "use strict";
+
+  const items = [
+    "🍭",
+    "❌",
+    "⛄️",
+    "🦄",
+    "🍌",
+    "💩",
+    "👻",
+    "😻",
+    "💵",
+    "🤡",
+    "🦖",
+    "🍎"
+  ];
+  document.querySelector(".info").textContent = items.join(" ");
+
+  const doors = document.querySelectorAll(".door");
+  document.querySelector("#spinner").addEventListener("click", spin);
+  document.querySelector("#reseter").addEventListener("click", init);
+
+  async function spin() {
+    init(false, 1, 2);
+    for (const door of doors) {
+      const boxes = door.querySelector(".boxes");
+      const duration = parseInt(boxes.style.transitionDuration);
+      boxes.style.transform = "translateY(0)";
+      await new Promise((resolve) => setTimeout(resolve, duration * 100));
     }
-    
-    let spun = false;
-    function spin() {
-        if (spun) {
-            reset();
+  }
+
+  function init(firstInit = true, groups = 1, duration = 1) {
+    for (const door of doors) {
+      if (firstInit) {
+        door.dataset.spinned = "0";
+      } else if (door.dataset.spinned === "1") {
+        return;
+      }
+
+      const boxes = door.querySelector(".boxes");
+      const boxesClone = boxes.cloneNode(false);
+
+      const pool = ["❓"];
+      if (!firstInit) {
+        const arr = [];
+        for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
+          arr.push(...items);
         }
-        const slots = document.querySelectorAll('.slot');
-        let completedSlots = 0;
-    
-        slots.forEach((slot, index) => {
-            const symbols = slot.querySelector('.symbols');
-            const symbolHeight = symbols.querySelector('.symbol')?.clientHeight;
-            const symbolCount = symbols.childElementCount;
-    
-            symbols.innerHTML = '';
-            symbols.appendChild(createSymbolElement('❓'));
-    
-            for (let i = 0; i < 3; i++) {
-                slotSymbols[index].forEach(symbol => {
-                    symbols.appendChild(createSymbolElement(symbol));
-                });
-            }
-    
-            const totalDistance = symbolCount * symbolHeight;
-            const randomOffset = -Math.floor(Math.random() * (symbolCount - 1) + 1) * symbolHeight;
-            symbols.style.top = `${randomOffset}px`;
-    
-            symbols.addEventListener('transitionend', () => {
-                completedSlots++;
-                if (completedSlots === slots.length) {
-                    logDisplayedSymbols();
-                }
-            }, { once: true });
-        });
-    
-        spun = true;
+        pool.push(...shuffle(arr));
+
+        boxesClone.addEventListener(
+          "transitionstart",
+          function () {
+            door.dataset.spinned = "1";
+            this.querySelectorAll(".box").forEach((box) => {
+              box.style.filter = "blur(1px)";
+            });
+          },
+          { once: true }
+        );
+
+        boxesClone.addEventListener(
+          "transitionend",
+          function () {
+            this.querySelectorAll(".box").forEach((box, index) => {
+              box.style.filter = "blur(0)";
+              if (index > 0) this.removeChild(box);
+            });
+          },
+          { once: true }
+        );
+      }
+      // console.log(pool);
+
+      for (let i = pool.length - 1; i >= 0; i--) {
+        const box = document.createElement("div");
+        box.classList.add("box");
+        box.style.width = door.clientWidth + "px";
+        box.style.height = door.clientHeight + "px";
+        box.textContent = pool[i];
+        boxesClone.appendChild(box);
+      }
+      boxesClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
+      boxesClone.style.transform = `translateY(-${
+        door.clientHeight * (pool.length - 1)
+      }px)`;
+      door.replaceChild(boxesClone, boxes);
+      // console.log(door);
     }
-    
-    function reset() {
-        const slots = document.querySelectorAll('.slot');
-    
-        slots.forEach(slot => {
-            const symbols = slot.querySelector('.symbols');
-            symbols.style.transition = 'none';
-            symbols.style.top = '0';
-            symbols.offsetHeight; // Trigger a reflow
-            symbols.style.transition = '';
-        });
+  }
+
+  function shuffle([...arr]) {
+    let m = arr.length;
+    while (m) {
+      const i = Math.floor(Math.random() * m--);
+      [arr[m], arr[i]] = [arr[i], arr[m]];
     }
-    
-    function logDisplayedSymbols() {
-        const slots = document.querySelectorAll('.slot');
-        const displayedSymbols = [];
-    
-        slots.forEach((slot, index) => {
-            const symbols = slot.querySelector('.symbols');
-            const symbolIndex = Math.floor(Math.abs(parseInt(symbols.style.top, 10)) / slot.clientHeight) % slotSymbols[index].length;
-            const displayedSymbol = slotSymbols[index][symbolIndex];
-            displayedSymbols.push(displayedSymbol);
-        });
-    
-        console.log(displayedSymbols);
-    }
-    </script> <!-- Include the JavaScript file -->
+    return arr;
+  }
+
+  init();
+})();
+
+</script>
 </body>
 </html>
