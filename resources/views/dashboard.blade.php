@@ -9,7 +9,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
 
                     <!-- Customer Service Chat Box -->
                     <div class="chat-box" style="width: 300px; height: 400px; border: 1px solid #ccc; border-radius: 10px; display: flex; flex-direction: column; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-top: 20px;">
