@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +54,6 @@ body {
 }
 
 .boxes {
-  /* transform: translateY(0); */
   transition: transform 1s ease-in-out;
 }
 
@@ -140,9 +137,10 @@ button {
 
   const doors = document.querySelectorAll(".door");
   document.querySelector("#spinner").addEventListener("click", spin);
-  document.querySelector("#reseter").addEventListener("click", init);
+  document.querySelector("#reseter").addEventListener("click", () => init(true));
 
   async function spin() {
+    // Do not reset spin state, but just spin again
     init(false, 1, 2);
     for (const door of doors) {
       const boxes = door.querySelector(".boxes");
@@ -154,12 +152,6 @@ button {
 
   function init(firstInit = true, groups = 1, duration = 1) {
     for (const door of doors) {
-      if (firstInit) {
-        door.dataset.spinned = "0";
-      } else if (door.dataset.spinned === "1") {
-        return;
-      }
-
       const boxes = door.querySelector(".boxes");
       const boxesClone = boxes.cloneNode(false);
 
@@ -174,7 +166,6 @@ button {
         boxesClone.addEventListener(
           "transitionstart",
           function () {
-            door.dataset.spinned = "1";
             this.querySelectorAll(".box").forEach((box) => {
               box.style.filter = "blur(1px)";
             });
@@ -193,7 +184,6 @@ button {
           { once: true }
         );
       }
-      // console.log(pool);
 
       for (let i = pool.length - 1; i >= 0; i--) {
         const box = document.createElement("div");
@@ -208,7 +198,6 @@ button {
         door.clientHeight * (pool.length - 1)
       }px)`;
       door.replaceChild(boxesClone, boxes);
-      // console.log(door);
     }
   }
 
@@ -223,7 +212,6 @@ button {
 
   init();
 })();
-
 </script>
 </body>
 </html>
