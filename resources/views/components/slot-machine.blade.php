@@ -15,6 +15,7 @@ body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 *,
@@ -114,7 +115,7 @@ button {
     <button id="reseter" class="text-white">Reset</button>
 </div>
 
-  <p class="info"></p>
+  {{-- <p class="info"></p> --}}
 </div>
 
 <script>
@@ -133,7 +134,7 @@ button {
     "💵",
     
   ];
-  document.querySelector(".info").textContent = items.join(" ");
+  // document.querySelector(".info").textContent = items.join(" ");
 
   const doors = document.querySelectorAll(".door");
   document.querySelector("#spinner").addEventListener("click", spin);
