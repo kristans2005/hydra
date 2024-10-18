@@ -113,9 +113,9 @@ button {
   </div>
 
   <div class="buttons">
-    <button id="spinner">Spin</button>
-    <button id="reseter">Reset</button>
-  </div>
+    <button id="spinner" class="text-white">Spin</button>
+    <button id="reseter" class="text-white">Reset</button>
+</div>
 
   <p class="info"></p>
 </div>
@@ -134,9 +134,7 @@ button {
     "👻",
     "😻",
     "💵",
-    "🤡",
-    "🦖",
-    "🍎"
+    
   ];
   document.querySelector(".info").textContent = items.join(" ");
 

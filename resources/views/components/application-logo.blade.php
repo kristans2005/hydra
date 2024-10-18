@@ -1,1 +1,3 @@
-<img src="{{ asset('images/logo.png') }}" alt="Casino Royale Logo" class="h-[120px] w-auto relative top-3">
+< <a href="/">
+    <img src="{{ asset('images/logo.png') }}" alt="Casino Royale Logo" class="mx-auto mb-6 w-40 h-40">
+</a>
