@@ -10,9 +10,7 @@
     </nav>
 
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-yellow-500 leading-tight">
-            Available Slots
-        </h2>
+        
     </x-slot>
 
     <div class="bg-gray-900 text-white min-h-screen py-12">
