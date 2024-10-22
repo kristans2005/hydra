@@ -10,16 +10,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class chating
+class chatingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
+    public $data;
+    public $userID;
+
     public function __construct()
     {
-        //
+        $this->data = $data;
+        $this->userID = $userID;
+    }
+
+
+    public function broadcastWith(): array
+    {
+        return [
+            'message' => $this->data,
+        ];
     }
 
     /**
