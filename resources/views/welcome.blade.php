@@ -35,6 +35,14 @@
             </div>
         </div>
     </section>
-
+    @vite('resources/js/app.js')
 </body>
+    <script>
+        setTimeout(() => {
+            window.Echo.channel('chat')
+                .listen('MessagingEvent', (e) => {
+                    console.log(e);
+                })
+        }, 200);
+    </script>
 </html>
