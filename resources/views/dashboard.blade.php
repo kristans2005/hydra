@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    
+        
     <div class="bg-gray-900 text-white min-h-screen py-12 overflow-hidden">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-gray-800 overflow-hidden shadow-lg sm:rounded-lg">

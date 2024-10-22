@@ -1,6 +1,6 @@
 <!-- Chat Icon Button -->
 <div id="chat-icon" style="position: fixed; bottom: 20px; right: 20px; cursor: pointer;">
-    <img src="{{ asset('images/chaticon.png') }}" alt="Chat Icon" width="50" height="50" />
+    <img src="{{ asset('images/chatimage.png') }}" alt="Chat Icon" width="75" height="75" />
 </div>
 
 <!-- Chat Box -->
@@ -63,10 +63,11 @@
         const messagesContainer = document.querySelector('.chat-messages');
         const inputField = document.querySelector('.chat-input textarea');
         const messageText = inputField.value.trim();
-        
+        const userName = `{{ Auth::user()->name }}`;
+
         if (messageText) {
             const newMessage = document.createElement('div');
-            newMessage.textContent = messageText;
+            newMessage.innerHTML = `<strong>${userName}:</strong> ${messageText}`; 
             newMessage.style.padding = '10px';
             newMessage.style.margin = '10px 0';
             newMessage.style.borderRadius = '5px';
