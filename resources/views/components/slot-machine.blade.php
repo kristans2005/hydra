@@ -12,8 +12,6 @@ body {
   margin: 0;
   border: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -21,17 +19,13 @@ body {
 *,
 *::before,
 *::after {
-  -webkit-box-sizing: inherit;
-  -moz-box-sizing: inherit;
   box-sizing: inherit;
 }
 
 #app {
   width: 100%;
   height: 100%;
-
   background: #212121;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -45,11 +39,9 @@ body {
 .door {
   background: #fafafa;
   box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.4) inset;
-
   width: 100px;
   height: 150px;
   overflow: hidden;
-
   border-radius: 1ex;
   margin: 1ch;
 }
@@ -62,7 +54,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-size: 3rem;
 }
 
@@ -72,10 +63,8 @@ body {
 
 button {
   cursor: pointer;
-
   font-size: 1.2rem;
   text-transform: uppercase;
-
   margin: 0 0.2rem 0 0.2rem;
 }
 
@@ -90,129 +79,128 @@ button {
 </head>
 <body>
     <div id="app">
-  <div class="doors">
-    <div class="door">
-      <div class="boxes">
-        <!-- <div class="box">?</div> -->
-      </div>
+        <div class="doors">
+            <div class="door">
+                <div class="boxes">
+                    <!-- <div class="box">?</div> -->
+                </div>
+            </div>
+            <div class="door">
+                <div class="boxes">
+                    <!-- <div class="box">?</div> -->
+                </div>
+            </div>
+            <div class="door">
+                <div class="boxes">
+                    <!-- <div class="box">?</div> -->
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="spinner" class="text-white">Spin</button>
+            <button id="reseter" class="text-white">Reset</button>
+        </div>
+        <audio id="spin-sound" src="{{ asset('audio/spin.wav') }}" preload="auto"></audio>
+        {{-- <p class="info"></p> --}}
     </div>
 
-    <div class="door">
-      <div class="boxes">
-        <!-- <div class="box">?</div> -->
-      </div>
-    </div>
+    <script>
+        (function () {
+            "use strict";
 
-    <div class="door">
-      <div class="boxes">
-        <!-- <div class="box">?</div> -->
-      </div>
-    </div>
-  </div>
+            const items = [
+                "🍭",
+                "❌",
+                "⛄️",
+                "🦄",
+                "🍌",
+                "💩",
+                "👻",
+                "😻",
+                "💵",
+            ];
 
-  <div class="buttons">
-    <button id="spinner" class="text-white">Spin</button>
-    <button id="reseter" class="text-white">Reset</button>
-</div>
+            const doors = document.querySelectorAll(".door");
+            document.querySelector("#spinner").addEventListener("click", spin);
+            document.querySelector("#reseter").addEventListener("click", () => init(true));
 
-  {{-- <p class="info"></p> --}}
-</div>
+            async function spin() {
+                // Play the spin soun
+                const spinSound = document.getElementById('spin-sound');
+                spinSound.currentTime = 0; // Reset the audio to start
+                spinSound.play(); // Play the audio
 
-<script>
-    (function () {
-  "use strict";
+              
+                init(false, 1, 2);
+                for (const door of doors) {
+                    const boxes = door.querySelector(".boxes");
+                    const duration = parseInt(boxes.style.transitionDuration);
+                    boxes.style.transform = "translateY(0)";
+                    await new Promise((resolve) => setTimeout(resolve, duration * 100));
+                }
+            }
 
-  const items = [
-    "🍭",
-    "❌",
-    "⛄️",
-    "🦄",
-    "🍌",
-    "💩",
-    "👻",
-    "😻",
-    "💵",
-    
-  ];
-  // document.querySelector(".info").textContent = items.join(" ");
+            function init(firstInit = true, groups = 1, duration = 1) {
+                for (const door of doors) {
+                    const boxes = door.querySelector(".boxes");
+                    const boxesClone = boxes.cloneNode(false);
+                    const pool = ["❓"];
+                    if (!firstInit) {
+                        const arr = [];
+                        for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
+                            arr.push(...items);
+                        }
+                        pool.push(...shuffle(arr));
 
-  const doors = document.querySelectorAll(".door");
-  document.querySelector("#spinner").addEventListener("click", spin);
-  document.querySelector("#reseter").addEventListener("click", () => init(true));
+                        boxesClone.addEventListener(
+                            "transitionstart",
+                            function () {
+                                this.querySelectorAll(".box").forEach((box) => {
+                                    box.style.filter = "blur(1px)";
+                                });
+                            },
+                            { once: true }
+                        );
 
-  async function spin() {
-    // Do not reset spin state, but just spin again
-    init(false, 1, 2);
-    for (const door of doors) {
-      const boxes = door.querySelector(".boxes");
-      const duration = parseInt(boxes.style.transitionDuration);
-      boxes.style.transform = "translateY(0)";
-      await new Promise((resolve) => setTimeout(resolve, duration * 100));
-    }
-  }
+                        boxesClone.addEventListener(
+                            "transitionend",
+                            function () {
+                                this.querySelectorAll(".box").forEach((box, index) => {
+                                    box.style.filter = "blur(0)";
+                                    if (index > 0) this.removeChild(box);
+                                });
+                            },
+                            { once: true }
+                        );
+                    }
 
-  function init(firstInit = true, groups = 1, duration = 1) {
-    for (const door of doors) {
-      const boxes = door.querySelector(".boxes");
-      const boxesClone = boxes.cloneNode(false);
+                    for (let i = pool.length - 1; i >= 0; i--) {
+                        const box = document.createElement("div");
+                        box.classList.add("box");
+                        box.style.width = door.clientWidth + "px";
+                        box.style.height = door.clientHeight + "px";
+                        box.textContent = pool[i];
+                        boxesClone.appendChild(box);
+                    }
+                    boxesClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
+                    boxesClone.style.transform = `translateY(-${
+                        door.clientHeight * (pool.length - 1)
+                    }px)`;
+                    door.replaceChild(boxesClone, boxes);
+                }
+            }
 
-      const pool = ["❓"];
-      if (!firstInit) {
-        const arr = [];
-        for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
-          arr.push(...items);
-        }
-        pool.push(...shuffle(arr));
+            function shuffle([...arr]) {
+                let m = arr.length;
+                while (m) {
+                    const i = Math.floor(Math.random() * m--);
+                    [arr[m], arr[i]] = [arr[i], arr[m]];
+                }
+                return arr;
+            }
 
-        boxesClone.addEventListener(
-          "transitionstart",
-          function () {
-            this.querySelectorAll(".box").forEach((box) => {
-              box.style.filter = "blur(1px)";
-            });
-          },
-          { once: true }
-        );
-
-        boxesClone.addEventListener(
-          "transitionend",
-          function () {
-            this.querySelectorAll(".box").forEach((box, index) => {
-              box.style.filter = "blur(0)";
-              if (index > 0) this.removeChild(box);
-            });
-          },
-          { once: true }
-        );
-      }
-
-      for (let i = pool.length - 1; i >= 0; i--) {
-        const box = document.createElement("div");
-        box.classList.add("box");
-        box.style.width = door.clientWidth + "px";
-        box.style.height = door.clientHeight + "px";
-        box.textContent = pool[i];
-        boxesClone.appendChild(box);
-      }
-      boxesClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
-      boxesClone.style.transform = `translateY(-${
-        door.clientHeight * (pool.length - 1)
-      }px)`;
-      door.replaceChild(boxesClone, boxes);
-    }
-  }
-
-  function shuffle([...arr]) {
-    let m = arr.length;
-    while (m) {
-      const i = Math.floor(Math.random() * m--);
-      [arr[m], arr[i]] = [arr[i], arr[m]];
-    }
-    return arr;
-  }
-
-  init();
-})();
-</script>
+            init();
+        })();
+    </script>
 </body>
 </html>

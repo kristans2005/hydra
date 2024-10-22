@@ -2,7 +2,7 @@
     <nav class="bg-gray-900 py-4 shadow-md">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="flex items-center">
-                <a href="#" class="text-2xl font-bold text-yellow-500">Casino Royale Classic Slot</a>
+                <div class="text-2xl font-bold text-yellow-500">Casino Royale Classic Slot</div>
             </div>
             <div class="flex items-center space-x-4">
             </div>
