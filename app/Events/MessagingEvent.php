@@ -11,16 +11,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessagingEvent implements shouldBroadcastNow
+class MessagingEvent implements shouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
-    public function __construct()
+
+
+    public function __construct(
+        public $message = 'Hello'
+    )
     {
-        //
+
     }
 
     /**
