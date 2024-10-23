@@ -25,7 +25,7 @@
 
                     @if(Auth::user() && Auth::user()->isAdmin())
                     <x-nav-link :href="route('admin.route')" :active="request()->routeIs('admin.route')">
-                        {{ __('Admin Section') }}
+                        {{ __('Admin') }}
                     </x-nav-link>
                 @endif
                 
