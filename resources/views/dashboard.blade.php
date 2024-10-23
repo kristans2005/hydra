@@ -24,15 +24,21 @@
         </div>
     </nav>
 
-    <div
-        x-data
-        x-init="
-            Echo.channel('chat')
-                .listen('MessagingEvent', (event) => {
-                    console.log(event);
-                });
-        "
-    >
-        <!-- Content for the live chat or Echo channel will go here -->
+    <!-- Add a placeholder for chat messages -->
+    <div id="chat-messages" class="p-6 text-white">
+        <h4 class="text-2xl mb-4">Chat Messages:</h4>
+        <!-- Messages will appear here -->
     </div>
+
+    <!-- Add Laravel Echo script for real-time events -->
+   @vite('resources/js/app.js')
+    <script>
+        // Make sure Echo is initialized correctly (ensure you have included Laravel Echo setup in your 'resources/js/app.js')
+        
+            window.Echo.channel('chat')
+                .listen('MessagingEvent', (e) => {
+                    console.log(e);
+                })
+        
+    </script>
 </x-app-layout>
