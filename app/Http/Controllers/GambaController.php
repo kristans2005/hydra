@@ -8,6 +8,6 @@ class GambaController extends Controller
 {
     public function index()
     {
-        return view('gambel.gamba');
+        return view('gamba');
     }    
 }

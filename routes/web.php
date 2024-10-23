@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Events\MessagingEvent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GambaController;
 use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function () {
@@ -12,7 +13,7 @@ Route::get('/', function () {
 
 Route::get('/gamba', function () {
     return view('gamba');
-})->middleware(['auth', 'verified'])->name('gamba');
+})->middleware(['middleware' => AdminMiddleware::class])->name('gamba');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -29,6 +30,12 @@ Route::middleware('auth')->group(function () {
    
 // });
  //Route::get('/gamba', [GambaController::class, 'index'])->name('gamba.index');
+
+    // Route::group(['middleware' => AdminMiddleware::class], function () {
+
+    //     Route::get('/gamba', [GambaController::class, 'index'])->name('gamba.index');
+
+    // });
 
 Route::get('/broadcast', function () {
     broadcast(new MessagingEvent());
