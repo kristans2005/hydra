@@ -22,12 +22,16 @@
                         {{ __('gamba') }}
                         </x-nav-link>
                     </div>
-<!-- 
-                    @if(Auth::user() && Auth::user()->isAdmin())
-                    <x-nav-link :href="route('admin.route')" :active="request()->routeIs('admin.route')">
-                        {{ __('Admin') }}
-                    </x-nav-link>
-                @endif -->
+
+                    @auth
+                        @if (Auth::user()->role == 'admin')
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
+                                {{ __('admin') }}
+                            </x-nav-link>
+                        </div>
+                        @endif
+                    @endauth
                 
                     
                 </div>
