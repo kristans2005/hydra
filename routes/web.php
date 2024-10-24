@@ -13,7 +13,7 @@ Route::get('/', function () {
 
 Route::get('/gamba', function () {
     return view('gamba');
-})->middleware(['middleware' => AdminMiddleware::class])->name('gamba');
+})->middleware(['auth', 'verified'])->name('gamba');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -21,7 +21,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/admin', function () {
     return view('admin');
-})->middleware(['auth', 'verified'])->name('admin');
+})->middleware(['middleware' => AdminMiddleware::class])->name('admin');
 
 
 Route::middleware('auth')->group(function () {

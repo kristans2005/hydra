@@ -29,7 +29,7 @@
                             <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
                                 {{ __('admin') }}
                             </x-nav-link>
-                        </div>
+                            </div>
                         @endif
                     @endauth
                 
