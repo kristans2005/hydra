@@ -66,6 +66,65 @@ button {
   font-size: 1.2rem;
   text-transform: uppercase;
   margin: 0 0.2rem 0 0.2rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #ff9800, #ff5722);
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #ff5722, #ff9800);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#spinner {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+}
+
+#spinner:hover {
+  background: linear-gradient(135deg, #388e3c, #4caf50);
+}
+
+#reseter {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+#reseter:hover {
+  background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+#autospin {
+  background: linear-gradient(135deg, #3f51b5, #1a237e);
+}
+
+#autospin:hover {
+  background: linear-gradient(135deg, #1a237e, #3f51b5);
+}
+
+#bonus-buy {
+  background: linear-gradient(135deg, #ffeb3b, #fbc02d);
+  color: black;
+}
+
+#bonus-buy:hover {
+  background: linear-gradient(135deg, #fbc02d, #ffeb3b);
+}
+
+#free-spin {
+  background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+}
+
+#free-spin:hover {
+  background: linear-gradient(135deg, #7b1fa2, #9c27b0);
 }
 
 .info {
@@ -75,10 +134,22 @@ button {
   text-align: center;
 }
 
+.score {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.confetti {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
     </style>
 </head>
 <body>
     <div id="app">
+        <div class="score">Score: <span id="score">0</span></div>
         <div class="doors">
             <div class="door">
                 <div class="boxes">
@@ -99,8 +170,12 @@ button {
         <div class="buttons">
             <button id="spinner" class="text-white">Spin</button>
             <button id="reseter" class="text-white">Reset</button>
+            <button id="autospin" class="text-white">Autospin</button>
+            <button id="bonus-buy" class="text-white">Bonus Buy (-500)</button>
+            <button id="free-spin" class="text-white">Free Spin (10)</button>
         </div>
         <audio id="spin-sound" src="{{ asset('audio/spin.wav') }}" preload="auto"></audio>
+        <canvas class="confetti" id="confetti"></canvas>
         {{-- <p class="info"></p> --}}
     </div>
 
@@ -109,34 +184,86 @@ button {
             "use strict";
 
             const items = [
-                "🍭",
-                "❌",
-                "⛄️",
-                "🦄",
-                "🍌",
-                "💩",
-                "👻",
-                "😻",
-                "💵",
+                "🍭", "❌", "⛄️", "🦄", "🍌", "💩", "👻", "😻", "💵"
             ];
 
             const doors = document.querySelectorAll(".door");
-            document.querySelector("#spinner").addEventListener("click", spin);
+            const scoreElement = document.getElementById("score");
+            let score = 0;
+            let confettiActive = false;
+            let confettiAnimation;
+            let autospinInterval = null;
+            let freeSpinCount = 0;
+
+            document.querySelector("#spinner").addEventListener("click", () => spin());
             document.querySelector("#reseter").addEventListener("click", () => init(true));
+            document.querySelector("#autospin").addEventListener("click", toggleAutospin);
+            document.querySelector("#bonus-buy").addEventListener("click", bonusBuy);
+            document.querySelector("#free-spin").addEventListener("click", freeSpin);
 
-            async function spin() {
-                // Play the spin soun
+            function updateScore(points) {
+                score += points;
+                scoreElement.textContent = score;
+            }
+
+            function toggleAutospin() {
+                const button = document.getElementById("autospin");
+                if (autospinInterval) {
+                    clearInterval(autospinInterval);
+                    autospinInterval = null;
+                    button.textContent = "Autospin";
+                } else {
+                    autospinInterval = setInterval(spin, 2000);
+                    button.textContent = "Stop Autospin";
+                }
+            }
+
+            function bonusBuy() {
+                if (score >= 500) {
+                    updateScore(-500);
+                    spin();
+                } else {
+                    alert("Not enough points to buy a bonus!");
+                }
+            }
+
+            function freeSpin() {
+                if (freeSpinCount < 10) {
+                    freeSpinCount++;
+                    spin(true);
+                } else {
+                    alert("You already used your 10 free spins!");
+                }
+            }
+
+            async function spin(isFreeSpin = false) {
                 const spinSound = document.getElementById('spin-sound');
-                spinSound.currentTime = 0; // Reset the audio to start
-                spinSound.play(); // Play the audio
+                spinSound.currentTime = 0;
+                spinSound.play();
 
-              
+                stopConfetti();
+
                 init(false, 1, 2);
+
+                let jackpot = true;
+
                 for (const door of doors) {
                     const boxes = door.querySelector(".boxes");
                     const duration = parseInt(boxes.style.transitionDuration);
                     boxes.style.transform = "translateY(0)";
                     await new Promise((resolve) => setTimeout(resolve, duration * 100));
+
+                    const result = boxes.querySelector('.box').textContent;
+                    if (result !== "🦄") {
+                        jackpot = false;
+                    }
+                }
+
+                if (jackpot) {
+                    updateScore(2000);
+                    startConfetti();
+                } else if (!isFreeSpin) {
+                    updateScore(-100);
                 }
             }
 
@@ -148,7 +275,7 @@ button {
                     if (!firstInit) {
                         const arr = [];
                         for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
-                            arr.push(...items);
+                            arr.push(...items.concat("🦄", "🦄", "🦄"));
                         }
                         pool.push(...shuffle(arr));
 
@@ -197,6 +324,58 @@ button {
                     [arr[m], arr[i]] = [arr[i], arr[m]];
                 }
                 return arr;
+            }
+
+            function startConfetti() {
+                const confetti = document.getElementById("confetti");
+                const ctx = confetti.getContext("2d");
+                confetti.width = window.innerWidth;
+                confetti.height = window.innerHeight;
+
+                const particles = [];
+                const numParticles = 150;
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push({
+                        x: Math.random() * confetti.width,
+                        y: Math.random() * confetti.height,
+                        speedX: Math.random() * 5 - 2.5,
+                        speedY: Math.random() * 3 + 1,
+                        size: Math.random() * 5 + 2,
+                        color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                    });
+                }
+
+                confettiActive = true;
+
+                function animateConfetti() {
+                    ctx.clearRect(0, 0, confetti.width, confetti.height);
+
+                    particles.forEach(p => {
+                        ctx.fillStyle = p.color;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+                        ctx.fill();
+                        p.x += p.speedX;
+                        p.y += p.speedY;
+
+                        if (p.y > confetti.height) p.y = -p.size;
+                        if (p.x > confetti.width) p.x = -p.size;
+                    });
+
+                    confettiAnimation = requestAnimationFrame(animateConfetti);
+                }
+
+                animateConfetti();
+            }
+
+            function stopConfetti() {
+                const confetti = document.getElementById("confetti");
+                const ctx = confetti.getContext("2d");
+                if (confettiActive) {
+                    ctx.clearRect(0, 0, confetti.width, confetti.height);
+                    cancelAnimationFrame(confettiAnimation);
+                    confettiActive = false;
+                }
             }
 
             init();
