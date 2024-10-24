@@ -5,146 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-html,
-body {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  border: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow: hidden;
-}
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            border: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
 
-#app {
-  width: 100%;
-  height: 100%;
-  background: #212121;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+        #app {
+            width: 100%;
+            height: 100%;
+            background: #212121;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-.doors {
-  display: flex;
-}
+        .doors {
+            display: flex;
+        }
 
-.door {
-  background: #fafafa;
-  box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.4) inset;
-  width: 100px;
-  height: 150px;
-  overflow: hidden;
-  border-radius: 1ex;
-  margin: 1ch;
-}
+        .door {
+            background: #fafafa;
+            box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.4) inset;
+            width: 100px;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 1ex;
+            margin: 1ch;
+        }
 
-.boxes {
-  transition: transform 1s ease-in-out;
-}
+        .boxes {
+            transition: transform 1s ease-in-out;
+        }
 
-.box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3rem;
-}
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+        }
 
-.buttons {
-  margin: 1rem 0 2rem 0;
-}
+        .buttons {
+            margin: 1rem 0 2rem 0;
+        }
 
-button {
-  cursor: pointer;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  margin: 0 0.2rem 0 0.2rem;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 5px;
-  background: linear-gradient(135deg, #ff9800, #ff5722);
-  color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-}
+        button {
+            cursor: pointer;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            margin: 0 0.2rem 0 0.2rem;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #ff9800, #ff5722);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
 
-button:hover {
-  background: linear-gradient(135deg, #ff5722, #ff9800);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
-}
+        button:hover {
+            background: linear-gradient(135deg, #ff5722, #ff9800);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
 
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
 
-#spinner {
-  background: linear-gradient(135deg, #4caf50, #388e3c);
-}
+        #spinner {
+            background: linear-gradient(135deg, #4caf50, #388e3c);
+        }
 
-#spinner:hover {
-  background: linear-gradient(135deg, #388e3c, #4caf50);
-}
+        #spinner:hover {
+            background: linear-gradient(135deg, #388e3c, #4caf50);
+        }
 
-#reseter {
-  background: linear-gradient(135deg, #f44336, #d32f2f);
-}
+        #reseter {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
 
-#reseter:hover {
-  background: linear-gradient(135deg, #d32f2f, #f44336);
-}
+        #reseter:hover {
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+        }
 
-#autospin {
-  background: linear-gradient(135deg, #3f51b5, #1a237e);
-}
+        #autospin {
+            background: linear-gradient(135deg, #3f51b5, #1a237e);
+        }
 
-#autospin:hover {
-  background: linear-gradient(135deg, #1a237e, #3f51b5);
-}
+        #autospin:hover {
+            background: linear-gradient(135deg, #1a237e, #3f51b5);
+        }
 
-#bonus-buy {
-  background: linear-gradient(135deg, #ffeb3b, #fbc02d);
-  color: black;
-}
+        #bonus-buy {
+            background: linear-gradient(135deg, #ffeb3b, #fbc02d);
+            color: black;
+        }
 
-#bonus-buy:hover {
-  background: linear-gradient(135deg, #fbc02d, #ffeb3b);
-}
+        #bonus-buy:hover {
+            background: linear-gradient(135deg, #fbc02d, #ffeb3b);
+        }
 
-#free-spin {
-  background: linear-gradient(135deg, #9c27b0, #7b1fa2);
-}
+        #free-spin {
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+        }
 
-#free-spin:hover {
-  background: linear-gradient(135deg, #7b1fa2, #9c27b0);
-}
+        #free-spin:hover {
+            background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+        }
 
-.info {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-}
+        .info {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
 
-.score {
-  color: #fff;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-.confetti {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-}
+        .score {
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -213,26 +214,28 @@ button:active {
                     autospinInterval = null;
                     button.textContent = "Autospin";
                 } else {
-                    autospinInterval = setInterval(spin, 2000);
+                    autospinInterval = setInterval(spin, 3000);
                     button.textContent = "Stop Autospin";
                 }
             }
 
             function bonusBuy() {
                 if (score >= 500) {
-                    updateScore(-500);
-                    spin();
+                    updateScore(-500); // Deduct points for the bonus
+                    freeSpinCount = 10; // Reset free spins to 10
+                    alert("You bought a bonus and received 10 free spins!");
+                    spin(); // Spin immediately after buying the bonus
                 } else {
                     alert("Not enough points to buy a bonus!");
                 }
             }
 
             function freeSpin() {
-                if (freeSpinCount < 10) {
-                    freeSpinCount++;
+                if (freeSpinCount > 0) {
+                    freeSpinCount--;
                     spin(true);
                 } else {
-                    alert("You already used your 10 free spins!");
+                    alert("You have no free spins left!");
                 }
             }
 
