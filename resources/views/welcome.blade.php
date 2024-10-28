@@ -27,7 +27,7 @@
             <p class="text-lg mb-6">Your ultimate destination for thrilling games and exciting rewards. Spin the wheel, place your bets, and let the games begin!</p>
             <div class="space-x-4">
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="bg-yellow-500 text-black px-6 py-3 rounded-md text-lg font-semibold hover:bg-yellow-600 transition">Dashboard</a>
+                    <a href="{{ url('/home') }}" class="bg-yellow-500 text-black px-6 py-3 rounded-md text-lg font-semibold hover:bg-yellow-600 transition">Home</a>
                 @else
                     <a href="{{ route('login') }}" class="bg-yellow-500 text-black px-6 py-3 rounded-md text-lg font-semibold hover:bg-yellow-600 transition">Log In</a>
                     <a href="{{ route('register') }}" class="bg-transparent border-2 border-yellow-500 text-yellow-500 px-6 py-3 rounded-md text-lg font-semibold hover:bg-yellow-500 hover:text-black transition">Register</a>

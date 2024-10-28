@@ -14,10 +14,13 @@ Route::get('/gamba', function () {
     return view('gamba');
 })->middleware(['auth', 'verified'])->name('gamba');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/home', function () {
+    return view('home');
+})->middleware(['auth', 'verified'])->name('home');
 
+Route::get('/admin', function () {
+    return view('admin');
+})->middleware(['middleware' => AdminMiddleware::class])->name('admin');
 
 
 Route::middleware('auth')->group(function () {
