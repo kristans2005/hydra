@@ -29,18 +29,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 // Route::group(['middleware' => AdminMiddleware::class], function () {
-   
+
 // });
- //Route::get('/gamba', [GambaController::class, 'index'])->name('gamba.index');
+//Route::get('/gamba', [GambaController::class, 'index'])->name('gamba.index');
 
-    Route::group(['middleware' => AdminMiddleware::class], function () {
-
-        Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-
-    });
 
 Route::get('/broadcast', function () {
     broadcast(new MessagingEvent());
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

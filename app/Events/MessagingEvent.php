@@ -7,21 +7,34 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessagingEvent implements shouldBroadcast
+class MessagingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-
-
-    public function __construct(
-        public $message = 'Hello'
-    )
+    /**
+     * Create a new event instance.
+     */
+    public $message, $user;
+    public function __construct($message, $user)
     {
+        $this->message = $message;
+        $this->user = $user;
+    }
 
+    /**
+     * Get the data to broadcast with the event.
+     *
+     * @return array<string, mixed> The data to broadcast.
+     */
+    public function broadcastWith(): array
+    {
+        return [
+            'message' => $this->message,
+            'user' => $this->user
+        ];
     }
 
     /**
