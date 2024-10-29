@@ -64,22 +64,16 @@
         button {
             cursor: pointer;
             font-size: 1.2rem;
-            text-transform: uppercase;
             margin: 0 0.2rem 0 0.2rem;
             padding: 0.6rem 1.2rem;
             border: none;
             border-radius: 5px;
-            background: linear-gradient(135deg, #ff9800, #ff5722);
             color: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
         }
 
-        button:hover {
-            background: linear-gradient(135deg, #ff5722, #ff9800);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            transform: translateY(-2px);
-        }
+       
 
         button:active {
             transform: translateY(0);
