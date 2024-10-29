@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>Admin</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+       
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+</html>
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-yellow-500 leading-tight">
