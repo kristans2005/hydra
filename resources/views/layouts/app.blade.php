@@ -16,6 +16,7 @@
     @vite(['resources/css/app.css'])
     @vite(['resources/js/app.js'])
 
+    <script>import Echo from 'laravel-echo';</script>
 
 
 
