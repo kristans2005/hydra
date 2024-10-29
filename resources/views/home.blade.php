@@ -24,5 +24,13 @@
         </div>
     </nav>
 
-   
+    <script>
+        console.log("hiiiiii");
+
+
+        Echo.channel('chat')
+            .listen('MessagingEvent', (e) => {
+                console.log(e.message);
+            });
+    </script>
 </x-app-layout>
