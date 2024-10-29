@@ -10,7 +10,7 @@
             <div class="bg-gray-800 shadow-lg sm:rounded-lg overflow-hidden">
                 <div class="p-6 text-yellow-500">
                     
-
+            
                     
                 </div>
             </div>
