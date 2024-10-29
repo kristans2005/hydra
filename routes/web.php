@@ -18,9 +18,9 @@ Route::get('/home', function () {
     return view('home');
 })->middleware(['auth', 'verified'])->name('home');
 
-Route::get('/admin', function () {
-    return view('admin');
-})->middleware(['middleware' => AdminMiddleware::class])->name('admin');
+// Route::get('/admin', function () {
+//     return view('admin');
+// })->middleware(['middleware' => AdminMiddleware::class])->name('admin');
 
 
 Route::middleware('auth')->group(function () {
