@@ -23,6 +23,12 @@
                         </x-nav-link>
                     </div>
 
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('chat.index')" :active="request()->routeIs('chat.index')">
+                        {{ __('chat support') }}
+                        </x-nav-link>
+                    </div>
+<!-- 
                     @auth
                         @if (Auth::user()->role == 'admin')
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -31,7 +37,7 @@
                             </x-nav-link>
                         </div>
                         @endif
-                    @endauth
+                    @endauth -->
                 
                 </div>
 
